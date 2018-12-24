@@ -10,12 +10,12 @@ class sendmailclass():
         gmail_password = password
 
         sent_from = frommail
-        to = [tomail]  
+        to = [tomail]  #its a list because can have more than one receipient
         subject = subjecttext
         print(bodytext)
         body = str(bodytext) #"Hey, what's up?\n\n- You"
         # UNCOMMENT LINE BELOW TO ADD HEADER AND FOOTER TO EMAIL.
-        # body = "Hi there,\n\n" + body + "\n\nWarmest Regards,\nEthan" 
+        body = "Hi there,\n\n" + body + "\n\nWarmest Regards,\nEthan" 
         print(body)
 
         email_text  = "Subject: {}\n\n{}".format(subject, body)

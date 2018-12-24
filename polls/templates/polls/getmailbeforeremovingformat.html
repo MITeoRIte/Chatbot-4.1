@@ -1,0 +1,295 @@
+
+{% extends 'polls/automatedemailreplier.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+	<title>Auto Mail Replier</title>
+
+	<style>
+
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: black;
+}
+
+a,
+a:hover,
+a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+	
+.chatbox {
+    width: 500px;
+    min-width: 390px;
+    height: 900px;
+    background: #fff;
+    padding: 10px;
+    margin: 0px 50px 900px 900px;
+    box-shadow: 0 3px #ccc;
+}
+
+
+
+.chat-form {
+		margin-top: 20px;
+		display: flex;
+		align-items: flex-start;
+	}
+
+.chat-form textarea {
+    background: #fbfbfb;
+    width: 75%;
+    height: 50px;
+    border: 2px solid #eee;
+    border-radius: 3px;
+    resize: none;
+    padding: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.chat-form textarea:focus {
+    background: #fff;
+}
+
+.chat-form button {
+    background: #1ddced;
+    padding: 5px 15px;
+    font-size: 30px;
+    color: #fff;
+    border: none;
+    margin: 0 10px;
+    border-radius: 3px;
+    box-shadow: 0 3px 0 #0eb2c1;
+    cursor: pointer;
+
+    -webkit-transaction: background .2s ease;
+    -moz-transaction: backgroud .2s ease;
+    -o-transaction: backgroud .2s ease;
+}
+
+.chat-form button:hover {
+    background: #13c8d9;
+}
+        body {
+    font: 15px arial, sans-serif;
+    background-color: #d9d9d9;
+    padding-top: 0px;
+    padding-bottom: 15px;
+    }
+
+    #bodybox {
+    margin: auto;
+    max-width: 550px;
+    font: 15px arial, sans-serif;
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+    padding-top: 0px;
+    padding-bottom: 25px;
+    padding-right: 25px;
+    padding-left: 25px;
+    box-shadow: 5px 5px 5px grey;
+    border-radius: 15px;
+    }
+
+#chatborder {
+border-style: solid;
+background-color: #f6f9f6;
+border-width: 3px;
+margin-top: 20px;
+margin-bottom: 20px;
+margin-left: 20px;
+margin-right: 20px;
+padding-top: 10px;
+padding-bottom: 15px;
+padding-right: 20px;
+padding-left: 15px;
+border-radius: 15px;
+}
+
+.chatlog {
+font: 15px arial, sans-serif;
+}
+
+#chatbox {
+font: 17px arial, sans-serif;
+height: 22px;
+width: 100%;
+}
+
+
+
+h1 {
+margin: auto;
+}
+
+pre {
+background-color: #f0f0f0;
+margin-left: 20px;
+}
+
+
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+	
+	<div class="chatbox">
+    <div class="emailcontentdisplay">
+        <p id="showlog11" class="showlog">&nbsp;</p>
+        <p id="showlog10" class="showlog">&nbsp;</p>
+        <p id="showlog9" class="showlog">&nbsp;</p>
+        <p id="showlog8" class="showlog">&nbsp;</p>
+        <p id="showlog7" class="showlog">&nbsp;</p>
+        <p id="showlog6" class="showlog">&nbsp;</p>
+		<p id="showlog5" class="showlog">&nbsp;</p>
+		<p id="showlog4" class="showlog">&nbsp;</p>
+		<p id="showlog3" class="showlog">&nbsp;</p>
+		<p id="showlog2" class="showlog">&nbsp;</p>
+		<p id="showlog1" class="showlog">&nbsp;</p>
+	</div>
+    <h1> _____________________ </h1>
+    <p id="thinking">Ready</p>
+		<h1>Automatic Responder </h1><p>This machine can retrieve emails from govtechinternship@gmail.com, read it, send text to chatbot, and reply to the email.</p>
+		
+        <div class="chatlogs">
+			
+		</div>
+		<div class="chat-form">
+			<textarea id="textdifang" placeholder="Get Mail? Type 'check now!'"></textarea>
+			<button id="clickme">Send</button>
+		</div>
+        <div>
+        <h1> _____________________ </h1>
+        </div>
+<h9> (If you don't reply 'yes', you'll be chatting with the chatbot) </h9>
+		<script>
+		var messages = [],
+        text = "",
+		botName = 'Bot Bob',
+		textbeforesplit = "",
+		textonly = "",
+		talking = true; //name of the chatbot
+	
+
+		$(document).ready(function() {
+			$.ajaxSetup({
+        		headers: { "X-CSRFToken": '{{ csrf_token }}' }
+   			});
+			$("#clickme").click(function() {
+				if (textdifang.value == "check now!") { //if text box isn't "yes", user will chat with chatbot
+					textdifang.value = ""; //Resets the textbox
+                    messages.push("<b>You: </b>check now!"); //appends user text to 'messages' list
+                    document.getElementById("thinking").innerHTML = "Please give Bob a second...";
+					$.ajax({ //Uses AJAX to send message to chatbot
+                		type: 'POST',
+                		url: 'getamail/', 
+						data: {'message': "placeholder"}, 
+                		dataType: 'json',
+                        success: function(data) { //once email is received,
+							var botMessage = data.mailmessage; //stores email content in botmessage
+                            var replymail = data.mailsender; //stores email sender in replymail
+                            var subject = String(data.mailsubject); //stores email subject in subject
+                            if (subject.startsWith("RE:")){ //checks if there already is an "RE: "
+                                var subjectforreply = (subject);
+                            }else{
+                                var subjectforreply = ("RE: " + subject)} //if no, add an "RE: "
+                            // alert("email received: \n\nSubject: " + subject + "\nBody: \n" + botMessage + "\n\nfrom: " + replymail); 
+                            document.getElementById("thinking").innerHTML = "Email Received"; 
+                            messages.push("<b>Received: </b> " + botMessage); //add body of email to messages list
+                            for (var i = 1; i < 11; i++) {
+                                if (messages[messages.length - i]){
+                                    document.getElementById("showlog" + i).innerHTML = messages[messages.length - i];  // prints out messages list
+                                }}
+                            $.ajax({ //Uses AJAX to send message to chatbot
+                                type: 'POST',
+                                url: 'sendtochatterbot/', 
+                                data: {'message': botMessage}, //sends message to chatbot MAYBE CAN SEPERATE IT INTO FIELDS COS ITS NO CHATBOT
+                                success: function(data) { //once reply is received,
+                                    var botreply = data; //stores reply in botreply
+                                    var text = String(botreply);
+                                    // alert("Here's what I will be saying: " + botreply);
+                                    setTimeout(function(){
+                                        document.getElementById("thinking").innerHTML = "Ready";
+                                        messages.push("<b>Sent: </b> " + botreply); //add bot's message to messages list
+                                        for (var i = 1; i < 11; i++) {
+                                            if (messages[messages.length - i]){
+                                                document.getElementById("showlog" + i).innerHTML = messages[messages.length - i];
+                                            }
+                                        }
+                                    },1000);
+                                    // alert("Now sending " + text + " to " + replymail);
+                                    document.getElementById("thinking").innerHTML = "Please give Bob another second...";
+                                    var UM = ["govtechinternship@gmail.com", "mcONLINE123", "frommail", replymail, subjectforreply, text]; //sets up variable for mailbot to parse
+                                    $.ajax({ //Uses AJAX to send message to chatbot
+                                        type: 'POST',
+                                        url: 'sendamail/',
+                                        data: {'USERNAME': UM[0], 'PASSWORD': UM[1], 'FROMMAIL': UM[2], 'TOREPLYADD': UM[3], 'SUBJECTTEXT':UM[4], 'BODYTEXT':String(UM[5])}, //sends message to chatbot MAYBE CAN SEPERATE IT INTO FIELDS COS ITS NO CHATBOT
+                                        success: function(data) { //once email is sent,
+                                            botMessage = data; //botMessage is "mail sent!""
+                                            messages.push("<b>" + botName + ": </b> " + botMessage); //add bot's message to messages list
+                                            for (var i = 1; i < 8; i++) {
+                                                if (messages[messages.length - i]){
+                                                    document.getElementById("showlog" + i).innerHTML = messages[messages.length - i]; //prints messages list
+                                                }
+                                            }
+                                            document.getElementById("thinking").innerHTML = "Ready";
+                                        }
+                                    });
+                                }
+                            });
+                		}
+            		});
+				}else{ //as long as user input isn't "check now!", they will be talking to the chatbot
+                    document.getElementById("thinking").innerHTML = "thinking"; 
+                    textbeforesplit = textdifang.value;
+                    textdifang.value = "";
+                    messages.push("<b>You: </b>" + textbeforesplit);
+                    $.ajax({
+                        type: 'POST',
+                        url: 'sendtochatterbot/',
+                        data: {'message' : textbeforesplit},
+                        success: function(data) {
+                            messages.push("<b>Bot: </b>" + data);
+                            document.getElementById("thinking").innerHTML = "Ready";
+                            for (var i = 1; i < 8; i++) {
+                                if (messages[messages.length - i]){
+                                    document.getElementById("showlog" + i).innerHTML = messages[messages.length - i];
+                                }
+                            }
+                        }
+                    })
+
+                }
+			});
+		});
+		</script>
+</body>
+</html>
+
+{% endblock %}

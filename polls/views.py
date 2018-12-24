@@ -14,13 +14,21 @@ bot = ChatBot('Test')
 bot.set_trainer(ListTrainer)
 trainerset = []
 for f in os.listdir('/Users/yuxin/Desktop/chatterbotfiles'):
-    with open('/Users/yuxin/Desktop/chatterbotfiles/' + f, encoding="utf-16") as toprocess:
-        for line in toprocess:
-            linestripped = str(line).rstrip("b'")
-            linefinal = linestripped.rstrip("\n'")
-            print(str(linefinal))
-            trainerset.append(str(linefinal))
+    print(f)
+    if f.endswith('.txt'):
+        with open('/Users/yuxin/Desktop/chatterbotfiles/' + f, 'r') as toprocess:
+            data = toprocess.readlines()
+            for line in data:
+                print(line)
+                trainerset.append(line)
         bot.train(trainerset)
+    # 
+    #     for line in toprocess.readlines():
+    #         # linestripped = str(line).rstrip("b'")
+    #         # linefinal = linestripped.rstrip("\n'")
+    #         print(str(line))
+    #         trainerset.append(str(line))
+        
 def send_replyfromChatterbot(request):
     xinxi = request.POST['message']
     reply = bot.get_response(xinxi)
@@ -49,10 +57,17 @@ def sendamail(request):
     print(xinxi)
     try:
         print("send mail requested")
-        sendmailclass.sendmailfunc(xinxi["USERNAME"],xinxi["PASSWORD"],xinxi["FROMMAIL"],xinxi["TOMAIL"],xinxi["SUBJECTTEXT"],xinxi["BODYTEXT"]) #user, password, frommail, tomail, subjecttext, bodytext
+        sendmailclass.sendmailfunc(xinxi["USERNAME"],xinxi["PASSWORD"],xinxi["FROMMAIL"],xinxi["TOREPLYADD"],xinxi["SUBJECTTEXT"],xinxi["BODYTEXT"]) #user, password, frommail, tomail, subjecttext, bodytext
         print("send mail passed.")
     except:
         print("send mail failed.")
     return HttpResponse(reply)
 def sendmail(request):
     return render(request, 'polls/sendmail.html', {'title' : 'Chatting2'})
+
+
+def newgetmail(request):
+    return render(request, 'polls/NewDesignforgetmail.html')
+
+def automatedemailreplier(request):
+    return render(request, 'polls/automatedemailreplier.html')
