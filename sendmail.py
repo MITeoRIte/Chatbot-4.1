@@ -14,6 +14,8 @@ class sendmailclass():
         subject = subjecttext
         print(bodytext)
         body = str(bodytext) #"Hey, what's up?\n\n- You"
+        # UNCOMMENT LINE BELOW TO ADD HEADER AND FOOTER TO EMAIL.
+        # body = "Hi there,\n\n" + body + "\n\nWarmest Regards,\nEthan" 
         print(body)
 
         email_text  = "Subject: {}\n\n{}".format(subject, body)
@@ -33,10 +35,10 @@ class sendmailclass():
             print("identification successful")
             server.login(gmail_user, gmail_password)
             print("login successful")
-            server.sendmail(sent_from, to, email_text)
+            server.sendmail(sent_from, tomail, email_text)
             print("send mail successful")
             server.close()
-            print('Email sent!')
+            print('Email sent!: ' + email_text)
             return HttpResponse("Successful!")
         except:  
             print('Something went wrong...')

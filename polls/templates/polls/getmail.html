@@ -400,9 +400,10 @@ a.article:hover {
 		<p id="showlog1" class="showlog">&nbsp;</p>
 	</div>
     <h1> _____________________ </h1>
-		<h1>Email Receiver </h1><p>This machine can retrieve emails from govtechinternship@gmail.com in HTML and Plain Text format.</p>
+    <p id="thinking">Ready</p>
+		<h1>Automatic Responder </h1><p>This machine can retrieve emails from govtechinternship@gmail.com, read it, send text to chatbot, and reply to the email.</p>
 		<div class="chatlogs">
-			<p id="thinking"></p>
+			
 		</div>
 		<div class="chat-form">
 			<textarea id="textdifang" placeholder="Get Mail? Type yes"></textarea>
@@ -411,8 +412,8 @@ a.article:hover {
 
 		<script>
 		var messages = [],
-		UM = "", //keeps track of the most recent input string from the user  //var keeps track of what the chatbot is going to say
-		botName = 'Tom',
+        text = "",
+		botName = 'Bot Bob',
 		textbeforesplit = "",
 		textonly = "",
 		talking = true; //name of the chatbot
@@ -427,18 +428,69 @@ a.article:hover {
 					textbeforesplit = textdifang.value; //stores what the user type
 					textdifang.value = ""; //Resets the textbox
                     messages.push("<b>You: </b>" + textbeforesplit);
+                    document.getElementById("thinking").innerHTML = "Please give Bob a second...";
 					$.ajax({ //Uses AJAX to send message to chatbot
                 		type: 'POST',
                 		url: 'getamail/', 
 						data: {'message': textbeforesplit}, //sends message to chatbot MAYBE CAN SEPERATE IT INTO FIELDS COS ITS NO CHATBOT
-                		success: function(data) { //once reply is received,
-							var botMessage = data; //stores reply in botMessge
-                            document.getElementById("thinking").innerHTML = "";
-                            messages.push("<b>" + botName + "</b> " + botMessage); //add bot's message to var messages
+                		dataType: 'json',
+                        success: function(data) { //once reply is received,
+							var botMessage = data.mailmessage; //stores reply in botMessge
+                            var replymail = data.mailsender;
+                            var subject = String(data.mailsubject);
+                            if (subject.startsWith("RE:")){
+                                var subjectforreply = (subject);
+                            }else{
+                                var subjectforreply = ("RE: " + subject)}
+                            // alert("email received: \n\nSubject: " + subject + "\nBody: \n" + botMessage + "\n\nfrom: " + replymail); 
+                            document.getElementById("thinking").innerHTML = "Ready";
+                            messages.push("<b>Received: </b> " + botMessage); //add bot's message to var messages
                             for (var i = 1; i < 11; i++) {
                                 if (messages[messages.length - i]){
                                     document.getElementById("showlog" + i).innerHTML = messages[messages.length - i];
                                 }}
+                            $.ajax({ //Uses AJAX to send message to chatbot
+                                type: 'POST',
+                                url: 'sendtochatterbot/', 
+                                data: {'message': botMessage}, //sends message to chatbot MAYBE CAN SEPERATE IT INTO FIELDS COS ITS NO CHATBOT
+                                success: function(data) { //once reply is received,
+                                    var botreply = data; //stores reply in botMessge
+                                    var text = String(botreply);
+                                    // alert("Here's what I will be saying: " + botreply);
+                                    setTimeout(function(){
+                                        document.getElementById("thinking").innerHTML = "Ready";
+                                        messages.push("<b>Sent: </b> " + botreply); //add bot's message to var messages
+                                        for (var i = 1; i < 11; i++) {
+                                            if (messages[messages.length - i]){
+                                                document.getElementById("showlog" + i).innerHTML = messages[messages.length - i];
+                                            }
+                                        }
+
+                                        
+                                    },1000);
+                                    // alert("Now sending " + text + " to " + replymail);
+                                    document.getElementById("thinking").innerHTML = "Please give Bob another second...";
+                                    var UM = ["govtechinternship@gmail.com", "mcONLINE123", "frommail", replymail, subjectforreply, text];
+                                    $.ajax({ //Uses AJAX to send message to chatbot
+                                        type: 'POST',
+                                        url: 'sendamail/',
+                                        data: {'USERNAME': UM[0], 'PASSWORD': UM[1], 'FROMMAIL': UM[2], 'TOMAIL': UM[3], 'SUBJECTTEXT':UM[4], 'BODYTEXT':String(UM[5])}, //sends message to chatbot MAYBE CAN SEPERATE IT INTO FIELDS COS ITS NO CHATBOT
+                                        success: function(data) { //once reply is received,
+                                            botMessage = data; //mail sent!
+                                            messages.push("<b>" + botName + ": </b> " + botMessage); //add bot's message to var messages
+                                            for (var i = 1; i < 8; i++) {
+                                                if (messages[messages.length - i]){
+                                                    document.getElementById("showlog" + i).innerHTML = messages[messages.length - i];
+                                                }
+                                            }
+                                            document.getElementById("thinking").innerHTML = "Ready";
+                                        }
+                                    });
+                                }
+                            });
+                            
+
+
                 		}
             		});
 					

@@ -12,9 +12,15 @@ from chatterbot.trainers import ListTrainer
 from chatterbot import ChatBot
 bot = ChatBot('Test')
 bot.set_trainer(ListTrainer)
+trainerset = []
 for f in os.listdir('/Users/yuxin/Desktop/chatterbotfiles'):
-    toprocess = open('/Users/yuxin/Desktop/chatterbotfiles/' + f, 'rb').readlines()
-    bot.train(toprocess)
+    with open('/Users/yuxin/Desktop/chatterbotfiles/' + f, encoding="utf-16") as toprocess:
+        for line in toprocess:
+            linestripped = str(line).rstrip("b'")
+            linefinal = linestripped.rstrip("\n'")
+            print(str(linefinal))
+            trainerset.append(str(linefinal))
+        bot.train(trainerset)
 def send_replyfromChatterbot(request):
     xinxi = request.POST['message']
     reply = bot.get_response(xinxi)
@@ -37,10 +43,16 @@ def getmail(request):
 from sendmail import sendmailclass
 success = False
 def sendamail(request):
-    reply = "Success!"
+    print("sendamail function invoked")
+    reply = "Mail sent!"
     xinxi = request.POST
     print(xinxi)
-    sendmailclass.sendmailfunc(xinxi["USERNAME"],xinxi["PASSWORD"],xinxi["FROMMAIL"],xinxi["TOMAIL"],xinxi["SUBJECTTEXT"],xinxi["BODYTEXT"]) #user, password, frommail, tomail, subjecttext, bodytext
+    try:
+        print("send mail requested")
+        sendmailclass.sendmailfunc(xinxi["USERNAME"],xinxi["PASSWORD"],xinxi["FROMMAIL"],xinxi["TOMAIL"],xinxi["SUBJECTTEXT"],xinxi["BODYTEXT"]) #user, password, frommail, tomail, subjecttext, bodytext
+        print("send mail passed.")
+    except:
+        print("send mail failed.")
     return HttpResponse(reply)
 def sendmail(request):
     return render(request, 'polls/sendmail.html', {'title' : 'Chatting2'})

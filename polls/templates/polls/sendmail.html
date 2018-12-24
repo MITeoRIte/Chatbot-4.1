@@ -186,6 +186,7 @@
 </label>
 	<div class="chatbox">
 		<h1>Please enter: </h1><p>EMAIL, PASSWORD, FROMMAIL, TOMAIL, SUBJECT TEXT, BODY TEXT</p>
+		<h3>You can copy and paste: </h3><span>govtechinternship@gmail.com, mcONLINE123, frommail, tomail,subject,body</span>
 		<div class="chatlogs">
 			<p id="chatlog7" class="chatlog">&nbsp;</p>
     		<p id="chatlog6" class="chatlog">&nbsp;</p>
@@ -206,7 +207,7 @@
 		var messages = [],
 		UM = "", //keeps track of the most recent input string from the user
 		botMessage = "", //var keeps track of what the chatbot is going to say
-		botName = 'Tom',
+		botName = 'Bot Bob',
 		textbeforesplit = "",
 		textonly = "",
 		talking = true; //name of the chatbot
@@ -222,12 +223,12 @@
 					textonly = UM.splice(5,999); //this takes out all those after the 5th comma and combine it
 					UM.push(textonly);
 					alert("This is what you will be sending: \n " + UM[UM.length - 1]);
-					document.getElementById("thinking").innerHTML = "Thinking...";
+					document.getElementById("thinking").innerHTML = "Please give Bob a second...";
 					textdifang.value = ""; //Resets the textbox
 					messages.push("<p>You: " + UM + "</p>"); //adds the value of the chatbox to the array messages
 					$.ajax({ //Uses AJAX to send message to chatbot
                 		type: 'POST',
-                		url: 'sendamail/', 
+                		url: 'sendamail/',
 						data: {'USERNAME': UM[0], 'PASSWORD': UM[1], 'FROMMAIL': UM[2], 'TOMAIL': UM[3], 'SUBJECTTEXT':UM[4], 'BODYTEXT':String(UM[5])}, //sends message to chatbot MAYBE CAN SEPERATE IT INTO FIELDS COS ITS NO CHATBOT
                 		success: function(data) { //once reply is received,
 							botMessage = data; //stores reply in botMessge

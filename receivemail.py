@@ -4,6 +4,8 @@ import requests
 from django.http import HttpResponse
 import email, imaplib
 import html2text
+import json
+
 
 
 
@@ -26,9 +28,15 @@ class getmailclass():
             print(mail.body)
             incasehtml = h.handle(mail.body)
             print("HTML cleaned: " + incasehtml)
-            response = (incasehtml + "<b>  ---> FROM: </b>" + mail.from_addr + "<b> ---> content type: </b>" + str(mail.content_type) + "<b> ---> attachments: </b>" + str(mail.attachments) + "<b> ---> date: </b>" + str(mail.date) + "<b> ---> mime version: </b>" + str(mail.mime_version) + "<b> ---> mail sender: </b>" + str(mail.sender))
-            
-            return response
+            if mail.attachments == []:
+                attachments = "No attachments."
+            else:
+                attachments = mail.attachments
+
+            response = (incasehtml + "\n FROM: " + mail.from_addr + " ATTATCHMENTS: " + str(attachments) + " DATE: " + str(mail.date))
+            newresponse = {'mailmessage' : incasehtml, 'mailsender' : mail.from_addr, 'mailsubject' : mail.title}
+            python2json = json.dumps(newresponse)
+            return python2json
             break
-        return response
+        return python2json
     
